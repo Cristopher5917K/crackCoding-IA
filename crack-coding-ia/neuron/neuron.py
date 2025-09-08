@@ -7,7 +7,7 @@ class Neuron:
         self.bias = np.random.randn()
         self.output = 0
         self.input = None
-        self.dweights = np.zeros_lieke(self.weights)
+        self.dweights = np.zeros_like(self.weights)
         self.dbias = 0
 
 
@@ -23,3 +23,17 @@ class Neuron:
         weighted_sum = np.dot(inputs, self.weights) + self.bias
         self.output = self.activate(weighted_sum)
         return self.output
+
+
+    def backward(self,d_output, learning_rate):
+        d_inputs = np.zeros(len(self.neurons[0].input))  # Initialize gradient wrt inputs
+        for i, neuron in enumerate(self.neurons):
+            d_inputs += neuron.backward(d_outputs[i], learning_rate)
+        return d_inputs
+
+        
+if __name__ == "__main__":
+    neuron = Neuron(3)
+    inputs = np.array([1,2,3])
+    output = neuron.forward(inputs)
+    print("Neuron output:", output)
